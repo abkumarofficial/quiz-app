@@ -32,7 +32,7 @@
 }
 
 button {
-  margin-top: 20px;
+  margin: 20px;
   padding: 15px;
   width: 200px;
   border-radius: 10px;
@@ -41,4 +41,24 @@ button {
 
 .option:hover {
   background-color: #ddd;
+}
+
+.option.selected {
+  background-color: greenyellow;
+}
+
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  border: 1px solid black;
+}
+
+.retry-quiz {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
