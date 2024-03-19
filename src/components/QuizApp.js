@@ -3,9 +3,11 @@ import { questions } from "../utils/constants";
 
 const QuizApp = () => {
   // Array of questions showing on the page
-  const [showingQuestions, setShowingQuestions] = useState(questions);
+  const [showingQuestions, setShowingQuestions] = useState(
+    JSON.parse(JSON.stringify(questions))
+  );
   // Array of all the wrong answers given by the player
-  const [wrongAnswers, setWrongAnswers] = useState(new Set());
+  // const [wrongAnswers, setWrongAnswers] = useState(new Set());
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showSubmit, setShowSubmit] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -23,10 +25,9 @@ const QuizApp = () => {
         )
     )
   );
-  // console.log("wrongAnswers", wrongAnswers);
-  // wrongAnswers.forEach((value) => console.log(value));
-  console.log("updated", showingQuestions);
 
+  console.log("updated", showingQuestions);
+  console.log("questions", questions);
   const handleChangeQuestion = (changeQuestion) => {
     if (changeQuestion <= showingQuestions.length - 1 && changeQuestion >= 0) {
       // Checking if we are at the last question, then show the submit button
@@ -56,18 +57,16 @@ const QuizApp = () => {
       : false;
     setShowingQuestions(updatedQuestion);
 
-    if (
-      option.isCorrect &&
-      wrongAnswers.has(showingQuestions[currentQuestion])
-    ) {
-      removeWrongAnswer(showingQuestions[currentQuestion]);
-    }
-    if (
-      !option.isCorrect &&
-      !wrongAnswers.has(showingQuestions[currentQuestion])
-    ) {
-      addWrongAnswer(showingQuestions[currentQuestion]);
-    }
+    // if (
+    //   option.isCorrect &&
+    //   wrongAnswers.has(showingQuestions[currentQuestion])
+    // ) {
+    //   removeWrongAnswer(showingQuestions[currentQuestion]);
+    // }
+    // if (!option.isCorrect && !wrongAnswers.has(showingQuestions[currentQuestion])
+    // ) {
+    //   addWrongAnswer(showingQuestions[currentQuestion]);
+    // }
   };
 
   const handleSubmit = () => {
@@ -118,21 +117,21 @@ const QuizApp = () => {
   };
 
   // Function to handle adding wrong answers
-  const addWrongAnswer = (answer) => {
-    const updatedWrongAnswers = new Set(wrongAnswers);
-    updatedWrongAnswers.add(answer);
-    setWrongAnswers(updatedWrongAnswers);
-  };
+  // const addWrongAnswer = (answer) => {
+  //   const updatedWrongAnswers = new Set(wrongAnswers);
+  //   updatedWrongAnswers.add(answer);
+  //   setWrongAnswers(updatedWrongAnswers);
+  // };
 
-  // Function to handle removing wrong answers
-  const removeWrongAnswer = useCallback(
-    (answer) => {
-      const updatedWrongAnswers = new Set(wrongAnswers);
-      updatedWrongAnswers.delete(answer);
-      setWrongAnswers(updatedWrongAnswers);
-    },
-    [wrongAnswers]
-  );
+  // // Function to handle removing wrong answers
+  // const removeWrongAnswer = useCallback(
+  //   (answer) => {
+  //     const updatedWrongAnswers = new Set(wrongAnswers);
+  //     updatedWrongAnswers.delete(answer);
+  //     setWrongAnswers(updatedWrongAnswers);
+  //   },
+  //   [wrongAnswers]
+  // );
 
   useEffect(() => {
     if (
@@ -145,13 +144,13 @@ const QuizApp = () => {
     }
 
     // when unselecting a option for a question,  if this question is present in our wrongAnswers Set, remove it
-    if (
-      selectedOption[currentQuestion].find((ele) => ele === true) ===
-        undefined &&
-      wrongAnswers.has(showingQuestions[currentQuestion])
-    ) {
-      removeWrongAnswer(showingQuestions[currentQuestion]);
-    }
+    // if (
+    //   selectedOption[currentQuestion].find((ele) => ele === true) ===
+    //     undefined &&
+    //   wrongAnswers.has(showingQuestions[currentQuestion])
+    // ) {
+    //   removeWrongAnswer(showingQuestions[currentQuestion]);
+    // }
   }, [selectedOption]);
 
   useEffect(() => {
@@ -254,7 +253,7 @@ const QuizApp = () => {
             Retry Quiz
           </button>
           <button type="button" onClick={() => handleResetQuiz(true)}>
-            Retry only Not Attemped and Wrongly answered Questions
+            Retry only not attemped and wrongly answered questions
           </button>
         </div>
       )}
