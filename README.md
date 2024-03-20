@@ -36,11 +36,7 @@ To run the quiz app locally, follow these steps:
 
 ## Author
 
-[Your Name]
-
-## Acknowledgements
-
-- Question data provided by [Your Source]
+Abhijeet Kumar
 
 ## License
 
