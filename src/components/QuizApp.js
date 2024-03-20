@@ -129,6 +129,9 @@ const QuizApp = () => {
     <div className="container">
       {!submitted && (
         <div className="questions">
+          <p className="question-number">
+            Question {currentQuestion + 1} / {showingQuestions.length}
+          </p>
           <span className="question">
             {showingQuestions[currentQuestion].question}
           </span>
@@ -182,6 +185,7 @@ const QuizApp = () => {
       )}
       {submitted && (
         <div className="scoreboard">
+          <p>Scorecard</p>
           <ul>
             <li>Total Number of Questions: {showingQuestions.length}</li>
             <li>
