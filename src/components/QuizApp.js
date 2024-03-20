@@ -3,12 +3,18 @@ import { questions } from "../utils/constants";
 
 const QuizApp = () => {
   // List of questions showing on the page
+  // Creating a deep copy of the data given
+  // we will be adding more keys into it like attempted, correct
+  // it will help us keep track of the attempted and corretly answered questions
+  // We can also use some other data structure to keep track of answered questions
   const [showingQuestions, setShowingQuestions] = useState(
     JSON.parse(JSON.stringify(questions))
   );
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showSubmit, setShowSubmit] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  // Keeping track of the selected option for each question
+  // This part needs some refactoring
   const [selectedOption, setSelectedOption] = useState(
     Array.from(
       {
@@ -35,6 +41,7 @@ const QuizApp = () => {
   };
 
   const handleOnSelect = (option, selectedIndex) => {
+    // Update the selected option for a question to keep track of them
     const updatedSelectedList = selectedOption[currentQuestion].map(
       (ele, index) => {
         if (selectedIndex === index) return !ele;
@@ -45,7 +52,7 @@ const QuizApp = () => {
     updatedSelectedOptions[currentQuestion] = updatedSelectedList;
     setSelectedOption(updatedSelectedOptions);
 
-    // keeping track of wrong answers in a Set in case the player wants to review the incorrect choices they've made.
+    // Update the attmepted/correct keys
     const updatedQuestion = [...showingQuestions];
     updatedQuestion[currentQuestion]["attempted"] = true;
     updatedQuestion[currentQuestion]["correct"] = option.isCorrect
@@ -58,6 +65,7 @@ const QuizApp = () => {
     setSubmitted(!submitted);
   };
 
+  // Needs Refactoring, duplicate code present
   const handleResetQuiz = (resetWithWrongAnswers = false) => {
     if (!resetWithWrongAnswers) {
       const updatedQuestions = questions.map((ele) => {
@@ -111,6 +119,7 @@ const QuizApp = () => {
   }, [selectedOption]);
 
   useEffect(() => {
+    // Adding attmepted and correct keys on the first render
     const updatedQuestions = showingQuestions.map((ele) => {
       return {
         ...ele,
