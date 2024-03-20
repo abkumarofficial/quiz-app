@@ -12,6 +12,8 @@ body {
   /* text-align: center; */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  border: 5px solid #ccc;
+  border-radius: 5px;
 }
 
 .questions {
@@ -236,9 +238,10 @@ button.submit {
 @media screen and (max-width: 900px) {
   .container {
     width: auto;
-    margin: 10px auto;
+    margin: auto;
     grid-template-columns: repeat(1, 1fr);
     margin: auto;
+    height: 100%;
   }
   .questions {
     height: 300px;
@@ -289,7 +292,11 @@ button.submit {
 @media screen and (max-width: 500px) {
   .container {
     width: auto;
-    margin: 10px auto;
+    margin: auto;
+    /* padding: 5px; */
+    border: 5px solid #ccc;
+    border-radius: 5px;
+    height: 100%;
   }
   .questions {
     max-width: 100%;
