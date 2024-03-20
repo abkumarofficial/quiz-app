@@ -1,13 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { questions } from "../utils/constants";
 
 const QuizApp = () => {
-  // Array of questions showing on the page
+  // List of questions showing on the page
   const [showingQuestions, setShowingQuestions] = useState(
     JSON.parse(JSON.stringify(questions))
   );
-  // Array of all the wrong answers given by the player
-  // const [wrongAnswers, setWrongAnswers] = useState(new Set());
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showSubmit, setShowSubmit] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -56,17 +54,6 @@ const QuizApp = () => {
       ? option.isCorrect
       : false;
     setShowingQuestions(updatedQuestion);
-
-    // if (
-    //   option.isCorrect &&
-    //   wrongAnswers.has(showingQuestions[currentQuestion])
-    // ) {
-    //   removeWrongAnswer(showingQuestions[currentQuestion]);
-    // }
-    // if (!option.isCorrect && !wrongAnswers.has(showingQuestions[currentQuestion])
-    // ) {
-    //   addWrongAnswer(showingQuestions[currentQuestion]);
-    // }
   };
 
   const handleSubmit = () => {
@@ -116,23 +103,6 @@ const QuizApp = () => {
     );
   };
 
-  // Function to handle adding wrong answers
-  // const addWrongAnswer = (answer) => {
-  //   const updatedWrongAnswers = new Set(wrongAnswers);
-  //   updatedWrongAnswers.add(answer);
-  //   setWrongAnswers(updatedWrongAnswers);
-  // };
-
-  // // Function to handle removing wrong answers
-  // const removeWrongAnswer = useCallback(
-  //   (answer) => {
-  //     const updatedWrongAnswers = new Set(wrongAnswers);
-  //     updatedWrongAnswers.delete(answer);
-  //     setWrongAnswers(updatedWrongAnswers);
-  //   },
-  //   [wrongAnswers]
-  // );
-
   useEffect(() => {
     if (
       selectedOption[currentQuestion].find((ele) => ele === true) === undefined
@@ -142,19 +112,9 @@ const QuizApp = () => {
       updatedQuestion[currentQuestion]["correct"] = false;
       setShowingQuestions(updatedQuestion);
     }
-
-    // when unselecting a option for a question,  if this question is present in our wrongAnswers Set, remove it
-    // if (
-    //   selectedOption[currentQuestion].find((ele) => ele === true) ===
-    //     undefined &&
-    //   wrongAnswers.has(showingQuestions[currentQuestion])
-    // ) {
-    //   removeWrongAnswer(showingQuestions[currentQuestion]);
-    // }
   }, [selectedOption]);
 
   useEffect(() => {
-    // const updatedQuestions = [...showingQuestions];
     const updatedQuestions = showingQuestions.map((ele) => {
       return {
         ...ele,
@@ -168,8 +128,10 @@ const QuizApp = () => {
   return (
     <div className="container">
       {!submitted && (
-        <div className="question">
-          <div>{showingQuestions[currentQuestion].question}</div>
+        <div className="questions">
+          <span className="question">
+            {showingQuestions[currentQuestion].question}
+          </span>
         </div>
       )}
       {!submitted && (
@@ -188,30 +150,30 @@ const QuizApp = () => {
             );
           })}
           {!showSubmit && (
-            <div>
+            <div className="change-question">
               <button
                 type="button"
                 onClick={() => handleChangeQuestion(currentQuestion - 1)}
               >
-                Previous
+                ◀
               </button>
               <button
                 type="button"
                 onClick={() => handleChangeQuestion(currentQuestion + 1)}
               >
-                Next
+                ▶
               </button>
             </div>
           )}
           {showSubmit && (
-            <div>
+            <div className="change-question">
               <button
                 type="button"
                 onClick={() => handleChangeQuestion(currentQuestion - 1)}
               >
-                Previous
+                ◀
               </button>
-              <button type="button" onClick={handleSubmit}>
+              <button type="button" className="submit" onClick={handleSubmit}>
                 Submit
               </button>
             </div>
@@ -219,42 +181,53 @@ const QuizApp = () => {
         </div>
       )}
       {submitted && (
-        <ul className="scoreboard">
-          <li>Total Number of Questions: {showingQuestions.length}</li>
-          <li>
-            Number of Questions Attempted:
-            {showingQuestions.filter((obj) => obj.attempted).length}
-          </li>
-          <li>
-            Did Not Attempt:
-            {showingQuestions.filter((obj) => !obj.attempted).length}
-          </li>
-          <li>
-            Correctly Answered:
-            {showingQuestions.filter((obj) => obj.correct).length}
-          </li>
-          <li>
-            Wrongly Answered:
-            {
-              showingQuestions.filter((obj) => obj.attempted && !obj.correct)
-                .length
-            }
-          </li>
-          <li>
-            Score:
-            {showingQuestions.filter((obj) => obj.correct).length} /
-            {showingQuestions.length}
-          </li>
-        </ul>
+        <div className="scoreboard">
+          <ul>
+            <li>Total Number of Questions: {showingQuestions.length}</li>
+            <li>
+              Number of Questions Attempted:{" "}
+              {showingQuestions.filter((obj) => obj.attempted).length}
+            </li>
+            <li>
+              Questions Not Attempted:{" "}
+              {showingQuestions.filter((obj) => !obj.attempted).length}
+            </li>
+            <li>
+              Correct Answers:{" "}
+              {showingQuestions.filter((obj) => obj.correct).length}
+            </li>
+            <li>
+              Incorrect Answers:{" "}
+              {
+                showingQuestions.filter((obj) => obj.attempted && !obj.correct)
+                  .length
+              }
+            </li>
+            <li>
+              Score: {showingQuestions.filter((obj) => obj.correct).length} /
+              {showingQuestions.length}
+            </li>
+          </ul>
+        </div>
       )}
       {submitted && (
         <div className="retry-quiz">
           <button type="button" onClick={() => handleResetQuiz(false)}>
-            Retry Quiz
+            Play Again
           </button>
-          <button type="button" onClick={() => handleResetQuiz(true)}>
-            Retry only not attemped and wrongly answered questions
-          </button>
+          <div className="retry-wrong-container">
+            <p>
+              Do you want to retry questions that were not attempted or were
+              answered incorrectly ?
+            </p>
+            <button
+              type="button"
+              className="retry-wrong-button"
+              onClick={() => handleResetQuiz(true)}
+            >
+              YES
+            </button>
+          </div>
         </div>
       )}
     </div>
