@@ -24,8 +24,6 @@ const QuizApp = () => {
     )
   );
 
-  console.log("updated", showingQuestions);
-  console.log("questions", questions);
   const handleChangeQuestion = (changeQuestion) => {
     if (changeQuestion <= showingQuestions.length - 1 && changeQuestion >= 0) {
       // Checking if we are at the last question, then show the submit button
@@ -58,12 +56,10 @@ const QuizApp = () => {
 
   const handleSubmit = () => {
     setSubmitted(!submitted);
-    console.log(showingQuestions);
   };
 
   const handleResetQuiz = (resetWithWrongAnswers = false) => {
     if (!resetWithWrongAnswers) {
-      console.log("nope");
       const updatedQuestions = questions.map((ele) => {
         return {
           ...ele,
@@ -139,6 +135,7 @@ const QuizApp = () => {
       )}
       {!submitted && (
         <div className="options">
+          <p style={{ fontWeight: "bold" }}>Select Answer</p>
           {showingQuestions[currentQuestion].options.map((option, index) => {
             return (
               <div
@@ -217,7 +214,7 @@ const QuizApp = () => {
       {submitted && (
         <div className="retry-quiz">
           <button type="button" onClick={() => handleResetQuiz(false)}>
-            Play Again
+            Reset
           </button>
           <div className="retry-wrong-container">
             <p>
