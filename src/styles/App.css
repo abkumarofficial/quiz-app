@@ -6,9 +6,9 @@ body {
 }
 
 .container {
-  width: 50%;
+  width: 900px;
   height: 500px;
-  margin: 15% auto;
+  margin: 5% auto;
   /* text-align: center; */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -21,7 +21,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100%;
-  min-width: 300px;
+  width: auto;
   position: relative;
 }
 
@@ -43,6 +43,7 @@ body {
   justify-content: center;
   gap: 10px;
   background-color: #ddd;
+  width: auto;
 }
 .option {
   border: 1px solid green;
@@ -232,10 +233,12 @@ button.submit {
   animation: slideIn 0.5s ease forwards;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 900px) {
   .container {
+    width: auto;
+    margin: 10px auto;
     grid-template-columns: repeat(1, 1fr);
-    margin: 15% auto;
+    margin: auto;
   }
   .questions {
     height: 300px;
@@ -272,6 +275,9 @@ button.submit {
     width: 100px;
     font-size: 20px;
   }
+  .retry-quiz {
+    height: 350px;
+  }
   .retry-quiz > button,
   .retry-wrong-button {
     margin: 2px;
@@ -287,5 +293,9 @@ button.submit {
   }
   .questions {
     max-width: 100%;
+  }
+  .options {
+    max-width: 100%;
+    max-height: 100%;
   }
 }
